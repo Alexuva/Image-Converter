@@ -1,0 +1,62 @@
+@import '../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+/*Regular font*/
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Poppins Regular'), local('Poppins-Regular'), url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+}
+
+/*SemiBold font*/
+@font-face {
+    font-family: 'Poppins';
+    font-weight: 700;
+    src: local('Poppins Bold'), local('Poppins-Bold'), url('../fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+}
+
+/*Thin font*/
+@font-face {
+    font-family: 'Poppins';
+    font-style: thin;
+    font-weight: 100;
+    src: local('Poppins Thin'), local('Poppins-Thin'), url('../fonts/Poppins/Poppins-Thin.ttf') format('truetype');
+}
+
+/*Bold font*/
+@font-face {
+    font-family: 'Poppins';
+    font-style: bold;
+    font-weight: 900;
+    src: local('Poppins Black'), local('Poppins-Black'), url('../fonts/Poppins/Poppins-Black.ttf') format('truetype');
+}
+
+*{
+    font-family: 'Poppins';
+}
+
+body{
+    background: #9789ff70;
+    background: linear-gradient(0deg, rgba(151,137,255,1) 31%, rgba(141,0,255,1) 100%);
+    background-repeat: no-repeat;
+    height: 100dvh;
+}
+
+#frame{
+    height: 25px;
+    position: absolute;
+    z-index: 0;
+}
+
+#options-menu{
+    z-index: 1;
+}
+
+#options-menu li{
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
+
+#options-menu li:hover{
+    background-color: #9789ff3e;
+}

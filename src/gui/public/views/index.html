@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Converter</title>
+    <link rel="stylesheet" href="../assets/css/styles.css"/>
+    <script>require('bootstrap');</script>
+    <script type="text/javascript" src="../assets/js/index.js" defer ></script>
+</head>
+<body>
+    <div id="frame" class="col-10"></div>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <!-- <img src="../assets/imgs/mini-logo.svg" alt="Image Converter" width="30" height="30"> -->
+            </a>
+            <ul class="d-flex flex-row navbar-nav justify-content-end" id="options-menu">
+                <li class="nav-item px-2 text-white" id="minimize">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                    </svg>
+                </li>
+                <li class="nav-item px-2 text-white" id="expand">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-app" viewBox="0 0 16 16">
+                        <path d="M11 2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h6zM5 1a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V5a4 4 0 0 0-4-4H5z"/>
+                    </svg>
+                </li>
+                <li class="nav-item px-2 text-white" id="close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                    </svg>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <section id="main-section" class="container">
+        <div class="pt-5 text-center">
+            <img class="img-fluid" src="../assets/imgs/logo.svg" alt="Image Converter">
+        </div>
+        <div class="m-5">
+            <form id="img-converter-form" class="container">
+                <div class="row my-1">
+                    <label for="img-selector" class="fst-light text-center text-light my-1">Selecciona una o varias imágenes</label>
+                    <div class="input-group container mb-3">
+                        <input type="file" class="form-control w-75" id="img-selector" multiple>
+                    </div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-6">
+                        <label for="img-selector" class="fst-light text-light my-1">Formato de salida</label>
+                        <select class="form-select" id="format-select">
+                            <option value="jpg" selected>JPEG</option>
+                            <option value="png">PNG</option>
+                            <option value="webp">WEBP</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row my-4">
+                    <div class="col-6 align-self-center">
+                        <input class="form-check-input" type="checkbox" value="true" id="compressCheckBox">
+                        <label class="form-check-label fst-light text-light" for="compressCheckBox">Comprimir imágenes</label>
+                    </div>
+                </div> 
+                <div class="row my-3 justify-content-center">
+                    <button type="button" id="submit" class="btn btn-success col-6 fw-bold p-2">Convertir</button>
+                </div>
+                </div>
+            </form>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="imgConversion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="imgConversion" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="imgConversionLabel">Imágenes convertidas!</h1>
+                    </div>
+                    <div class="modal-body container" id="imgConversionBody">
+                        <ul></ul>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-success"  id="downloadImg">Descargar</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="modalCancel">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
