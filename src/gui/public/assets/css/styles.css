@@ -39,7 +39,7 @@ body{
     background: #9789ff70;
     background: linear-gradient(0deg, rgba(151,137,255,1) 31%, rgba(141,0,255,1) 100%);
     background-repeat: no-repeat;
-    height: 100dvh;
+    height: 100vh;
 }
 
 #frame{
