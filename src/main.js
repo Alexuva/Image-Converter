@@ -45,7 +45,6 @@ function createWindow(){
 //IPC for conversion
 ipcMain.on('img-converter', async(event, args)=>{
     const numFiles = args.numFiles;
-    console.log(numFiles);
     let info = await process();
     let converted;
 
