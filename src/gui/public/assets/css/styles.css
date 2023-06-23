@@ -60,3 +60,7 @@ body{
 #options-menu li:hover{
     background-color: #9789ff3e;
 }
+
+.modal-backdrop.show{
+    opacity: 0.8 !important;
+}
