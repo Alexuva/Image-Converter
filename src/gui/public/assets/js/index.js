@@ -128,7 +128,10 @@ ipcRenderer.on("cancelDownload", (event, args)=>{
     download.disabled = false;
 })
 
-
+//Ipc render that catches errors
+ipcRenderer.on("error", (event, args)=>{
+    console.log(args);
+})
 
 
 

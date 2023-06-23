@@ -46,15 +46,20 @@ function createWindow(){
 
 //IPC for conversion
 ipcMain.on('img-converter', async(event, args)=>{
-    const numFiles = args.numFiles;
-    let info = await process();
-    let converted;
+    try{
+        const numFiles = args.numFiles;
+        let info = await process();
+        let converted;
 
-    while(numFiles !== converted){
-        converted = readFiles();
-        if(numFiles === converted){
-            event.sender.send("conversionFinish", info );
+        while(numFiles !== converted){
+            converted = readFiles();
+            if(numFiles === converted){
+                event.sender.send("conversionFinish", info );
+            }
         }
+    }catch(error){
+        event.sender.send('error', error);
+        console.log(error);
     }
 
     function readFiles(){
@@ -95,17 +100,24 @@ ipcMain.on('download', async(event, payload)=>{
                 event.sender.send("cancelDownload");
             }
         }).catch(err => {
+            event.sender.send('error', error);
             console.log(err)
         })
 
     }catch(error){
+        event.sender.send('error', error);
         console.log(error);
     }
 })
 
 //Ipc for cancel conversion
 ipcMain.on('modal-closed', (event, info)=>{
-    deleteImgs();
+    try{
+        deleteImgs();
+    }catch(error){
+        event.sender.send('error', error);
+        console.log(error);
+    }
 });
 
 //Delete converted img directory
