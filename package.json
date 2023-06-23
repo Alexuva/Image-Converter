@@ -2,10 +2,11 @@
   "name": "imgconverter",
   "version": "0.0.1",
   "description": "Convertidor de img",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "electron .",
-    "start": "electron ."
+    "start": "electron .",
+    "package": "electron-builder"
   },
   "keywords": [
     "img",
@@ -16,8 +17,10 @@
   "dependencies": {
     "adm-zip": "^0.5.10",
     "bootstrap": "^5.3.0",
-    "electron": "^25.1.1",
-    "mongoose": "^7.3.0",
     "sharp": "^0.32.1"
+  },
+  "devDependencies": {
+    "electron": "^25.1.1",
+    "electron-builder": "^24.4.0"
   }
 }

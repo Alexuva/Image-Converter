@@ -1,4 +1,4 @@
 const { app } = require('electron');
-const { createWindow } = require('./main');
+const { createWindow } = require('./src/main');
 
 app.whenReady().then(createWindow);
