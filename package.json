@@ -25,7 +25,8 @@
     "electron-builder": "^24.4.0"
   },
   "build":{
+    "productName" : "Image Converter",
     "appId" : "com.lex.imageConverter",
-    "oneClick" : false
+    "icon" : "build/icon/mini-logo.png"
   }
 }
