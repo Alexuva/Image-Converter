@@ -20,8 +20,6 @@ function createWindow(){
         },
         
     });
-
-    deleteImgs();
     
     mainWindow.loadFile('src/gui/public/views/index.html');
 
@@ -47,97 +45,61 @@ function createWindow(){
 //IPC for conversion
 ipcMain.on('img-converter', async(event, args)=>{
     try{
-        const numFiles = args.numFiles;
-        let info = await process();
+        const win = BrowserWindow.getFocusedWindow();
+        let fileNames = [];
         let converted;
 
-        while(numFiles !== converted){
-            converted = readFiles();
-            if(numFiles === converted){
-                event.sender.send("conversionFinish", info );
-            }
-        }
-    }catch(error){
-        event.sender.send('error', error);
-        console.log(error);
-    }
-
-    function readFiles(){
-        let imgArr = [];
-        let imgs = fs.readdirSync(`${convertRoot}`)
-        imgs.forEach( img => {
-            let data = fs.statSync(`${convertRoot}${img}`);
-            if(data.size > 0){
-              imgArr.push(img);  
-            }
+        args.files.forEach( file => {
+            let fileArr = file.name.split('.');
+            let fileName = fileArr[0];
+            fileNames.push(`${fileName}.${args.format}`);
         });
-
-        return imgArr.length;
-    }
-
-    async function process(){
-        const info = await processImg(args.files, args.format, args.compress);
-        return info;
-    }
-    
-});
-
-//Ipc for download
-ipcMain.on('download', async(event, payload)=>{
-    try{
-        const win = BrowserWindow.getFocusedWindow();
 
         dialog.showOpenDialog(win, {
             properties: ['openDirectory']
         }).then(result => {
             if(!result.canceled){
                 const savePath = result.filePaths[0];
-                let zip = new AdmZip();
-                zip.addLocalFolder(`${convertRoot}`);
-                zip.writeZip(`${savePath}/ejemplo.zip`);
-                event.sender.send("done");
-            }else{
-                event.sender.send("cancelDownload");
-            }
-        }).catch(err => {
-            event.sender.send('error', error);
-            console.log(err)
-        })
-
-    }catch(error){
-        event.sender.send('error', error);
-        console.log(error);
-    }
-})
-
-//Ipc for cancel conversion
-ipcMain.on('modal-closed', (event, info)=>{
-    try{
-        deleteImgs();
-    }catch(error){
-        event.sender.send('error', error);
-        console.log(error);
-    }
-});
-
-//Delete converted img directory
-function deleteImgs(){
-    fs.readdir(`${convertRoot}`, (error, files)=>{
-        if(error){
-            console.log(error)
-        }else{
-            files.forEach( file =>{
-                fs.rm(`${convertRoot}${file}`, (error, info)=>{
-                    if(error){
-                        console.log(error);
-                    }else{
-                        console.log(`Imagen ${file} borrada correctamente`);
+                const numFiles = args.numFiles;
+                process(savePath, numFiles);
+                while(numFiles !== converted){
+                    converted = readFiles(savePath, fileNames);
+                    if(numFiles === converted){
+                        event.sender.send("conversionFinish");
                     }
-                })
-            })
-        }
-    })
-}
+                }
 
+            }else{
+                event.sender.send("cancelConversion");
+            }
+        }).catch(error => {
+            event.sender.send('error', error);
+            console.log(error)
+        })
+        
+    }catch(error){
+        event.sender.send('error', error);
+        console.log(error);
+    }
+
+    function readFiles(path, fileNames){
+        let imgArr = [];
+        let files = fs.readdirSync(`${path}`)
+        files.forEach( file => {
+            if(fileNames.includes(file)){
+                let data = fs.statSync(`${path}/${file}`);
+                if(data.size > 0){
+                    imgArr.push(file);  
+                }
+            }
+        });
+        return imgArr.length;
+    }
+    
+    async function process(path){
+        const info = await processImg(args.files, args.format, args.compress, path);
+    }
+    
+});
 
 module.exports = { createWindow };
