@@ -56,6 +56,8 @@ ipcMain.on('img-converter', async(event, args)=>{
         });
 
         dialog.showOpenDialog(win, {
+            title: "Selecciona el directorio de destino",
+            buttonLabel: "Guardar",
             properties: ['openDirectory']
         }).then(result => {
             if(!result.canceled){

@@ -100,6 +100,12 @@ ipcRenderer.on("conversionFinish", (event, args)=>{
     },1250)
 })
 
+//Ipc that catches cancel conversion operation
+ipcRenderer.on("cancelConversion", (event, args)=>{
+    submit.innerHTML = "Convertir";
+    submit.disabled = false;
+})
+
 //Ipc render that catches errors
 ipcRenderer.on("error", (event, args)=>{
     console.log(args);
