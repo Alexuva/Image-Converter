@@ -4,17 +4,13 @@ const path = require('path');
 async function processImg(files, format, compress, finalPath){
     let newFiles = [];
 
-    await files.forEach( async function(file){
+    for await ( const file of files ){
         const picNameArr = file.name.split('.');
         const name = picNameArr[0];
-        const fileExt = picNameArr[1];
         const path = file.path;
-        const size = file.size;
-        const type = file.type;
-
-        await convert(path, name, format, compress, finalPath);
-        newFiles.push({ name: name, path: `${finalPath}/${name}.${format}`, format: format });
-    });
+        let image = await convert(path, name, format, compress, finalPath);
+        newFiles.push(image);
+    };
 
     return newFiles;
 }
@@ -22,46 +18,27 @@ async function processImg(files, format, compress, finalPath){
 
 async function convert(path, name, format, compress, finalPath){
     try{
+        let image;
+
         switch (format) {
                 
             case "png":
 
-                sharp(path).png({ quality: 100 }).toFile(`${finalPath}/${name}.png`, (error, info) => {
-                    if (error) {
-                        console.log(`Ha ocurrido un error ${error.message}`);
-                    } else {
-                        const fileSize = info.size / 1000000;
-                        console.log(`Imagen convertida ${fileSize} MB`);
-                    }
-                });
-
-                break;
+                let imagePng = await sharp(path).png({ quality: 100 }).toFile(`${finalPath}/${name}.png`);
+                image = imagePng.size;
+                return image;
 
             case "webp":
 
-                sharp(path).webp({ quality: 100, lossless: compress === "false" ? true : false }).toFile(`${finalPath}/${name}.webp`, (error, info) => {
-                    if (error) {
-                        console.log(`Ha ocurrido un error ${error.message}`);
-                    } else {
-                        const fileSize = info.size / 1000000;
-                        console.log(`Imagen convertida ${fileSize} MB`);
-                    }
-                });
-
-                break;
+                let imageWebp = await sharp(path).webp({ quality: 100, lossless: compress === "false" ? true : false }).toFile(`${finalPath}/${name}.webp`);
+                image = imageWebp.size;
+                return image;
             
             default:
 
-                sharp(path).jpeg({ quality: 100, chromaSubsampling: '4:4:4', mozjpeg: compress === "true" ? true : false }).toFile(`${finalPath}/${name}.jpg`, (error, info) => {
-                    if (error) {
-                        console.log(`Ha ocurrido un error ${error.message}`);
-                    } else {
-                        const fileSize = info.size / 1000000;
-                        console.log(`Imagen convertida ${fileSize} MB`);
-                    }
-                });
-
-                break;
+                let imageInfo = await sharp(path).jpeg({ quality: 100, chromaSubsampling: '4:4:4', mozjpeg: compress === "true" ? true : false }).toFile(`${finalPath}/${name}.jpg`);
+                image = imageInfo.size
+                return image;
         }
         
 
