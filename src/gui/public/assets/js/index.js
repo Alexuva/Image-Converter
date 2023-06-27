@@ -75,7 +75,6 @@ submit.addEventListener('click', (e)=>{
             files : imgData,
             format: format.value,
             compress: compress.checked ? "true" : "false",
-            numFiles: imgData.length
         }
 
         let span = document.createElement('span');

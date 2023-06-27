@@ -46,14 +46,6 @@ function createWindow(){
 ipcMain.on('img-converter', async(event, args)=>{
     try{
         const win = BrowserWindow.getFocusedWindow();
-        let fileNames = [];
-        let converted;
-
-        args.files.forEach( file => {
-            let fileArr = file.name.split('.');
-            let fileName = fileArr[0];
-            fileNames.push(`${fileName}.${args.format}`);
-        });
 
         dialog.showOpenDialog(win, {
             title: "Selecciona el directorio de destino",
@@ -62,18 +54,15 @@ ipcMain.on('img-converter', async(event, args)=>{
         }).then(result => {
             if(!result.canceled){
                 const savePath = result.filePaths[0];
-                const numFiles = args.numFiles;
-                process(savePath, numFiles);
-                while(numFiles !== converted){
-                    converted = readFiles(savePath, fileNames);
-                    if(numFiles === converted){
-                        event.sender.send("conversionFinish");
-                    }
-                }
-
+                return savePath;
             }else{
                 event.sender.send("cancelConversion");
             }
+        }).then( savePath => {
+            let info = async()=>{ return await processImg(args.files, args.format, args.compress, savePath) }
+            return info();  
+        }).then( info => {
+            event.sender.send("conversionFinish");
         }).catch(error => {
             event.sender.send('error', error);
             console.log(error)
@@ -83,23 +72,10 @@ ipcMain.on('img-converter', async(event, args)=>{
         event.sender.send('error', error);
         console.log(error);
     }
-
-    function readFiles(path, fileNames){
-        let imgArr = [];
-        let files = fs.readdirSync(`${path}`)
-        files.forEach( file => {
-            if(fileNames.includes(file)){
-                let data = fs.statSync(`${path}/${file}`);
-                if(data.size > 0){
-                    imgArr.push(file);  
-                }
-            }
-        });
-        return imgArr.length;
-    }
     
     async function process(path){
         const info = await processImg(args.files, args.format, args.compress, path);
+        return info
     }
     
 });
