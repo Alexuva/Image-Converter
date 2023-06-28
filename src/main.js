@@ -9,7 +9,7 @@ const convertRoot = path.join(__dirname, ('/gui/public/assets/converted/'));
 function createWindow(){
     const mainWindow = new BrowserWindow({ 
         width: 800, 
-        height: 600,
+        height: 675,
         icon: 'src/gui/public/assets/imgs/mini-logo.png',
         frame: false,
         webPreferences: {
