@@ -46,7 +46,7 @@
                         <input type="file" class="form-control w-75" id="img-selector" multiple>
                         <small class="text-light p-1">*Formatos permitidos: JPG, JPEG, PNG, WEBP, TIFF</small>
                     </div>
-                    <span class="alert alert-danger p-1 col-6 text-center d-none" id="alert">Formato de archivo no permitido</span>
+                    <span class="alert alert-danger p-1 m-0 col-6 text-center d-none" id="alert">Formato de archivo no permitido</span>
                 </div>
                 <div class="row my-1">
                     <div class="col-6">
@@ -78,6 +78,19 @@
                   </svg>
                 <h2 class="text-light py-2">Imágenes convertidas!</h2>
             </div>
+        </div>
+    </section>
+    <section id="update-section" class="container">
+        <div class="row">
+            <small class="text-white text-end align-items-center" id="checkingUpdates">
+                <span class="spinner-border spinner-border-sm text-light me-1" status="role"></span>Buscando actualizaciones...
+            </small>
+            <small class="text-white text-end align-items-center d-none" id="newUpdate">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                </svg>
+                Nueva actualización disponible, cierra el programa para instalar la nueva versión
+            </small>
         </div>
     </section>
 </body>

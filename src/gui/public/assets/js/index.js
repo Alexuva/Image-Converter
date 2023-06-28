@@ -34,6 +34,26 @@ class Img{
     }
 }
 
+const update = document.querySelector('#update-section #checkingUpdates');
+const newUpdate = document.querySelector("#update-section #newUpdate")
+let version = "0.0.1";
+
+//Ipc render that catches updates
+ipcRenderer.send("loadVersion");
+ipcRenderer.on("downloadingVersion", (event, args)=>{
+    update.innerHTML = "Descargando nueva version..."
+});
+
+ipcRenderer.on("newVersion", (event, args)=>{
+    update.classList.add('d-none');
+    newUpdate.classList.remove('d-none'); 
+});
+
+ipcRenderer.on("versionLoaded", (event, args)=>{
+    let actualVersion = args ?? version;
+    update.innerHTML = actualVersion;
+});
+
 //Form selectors
 const form = document.querySelector('#img-converter-form');
 const images = form.querySelector('#img-selector');
@@ -42,6 +62,7 @@ const compress = form.querySelector('#compressCheckBox');
 const submit = form.querySelector('button');
 const modal = new Modal('#imgConversion');
 const alert = form.querySelector("#alert");
+
 let imgData = [];
 
 //Listener to get files
@@ -54,10 +75,12 @@ images.addEventListener('change', (e)=>{
         let extPermitted = ["jpg", "png", "webp", "tiff", "jpeg"];
         if( extPermitted.includes(fileExt) ){
             alert.classList.add('d-none');
+            images.classList.remove('border-2', 'border-danger', 'text-danger');
             submit.disabled = false;
             let img = new Img(file.name, file.path, file.size, file.type);
             imgData.push(img)
         }else{
+            images.classList.add('border-2', 'border-danger', 'text-danger');
             submit.disabled = true;
             alert.classList.remove('d-none');
         }
@@ -83,7 +106,6 @@ submit.addEventListener('click', (e)=>{
         submit.disabled = true;
         submit.innerHTML = "";
         submit.appendChild(span);
-
         ipcRenderer.send('img-converter', data);
 
     }
@@ -109,6 +131,7 @@ ipcRenderer.on("cancelConversion", (event, args)=>{
 ipcRenderer.on("error", (event, args)=>{
     console.log(args);
 })
+
 
 
 
