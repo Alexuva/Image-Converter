@@ -51,7 +51,7 @@ ipcRenderer.on("newVersion", (event, args)=>{
 
 ipcRenderer.on("versionLoaded", (event, args)=>{
     let actualVersion = args ?? version;
-    update.innerHTML = actualVersion;
+    update.innerHTML = `v.${actualVersion}`;
 });
 
 //Form selectors
