@@ -34,7 +34,25 @@ class Img{
     }
 }
 
-const update = document.querySelector('#update-section');
+const update = document.querySelector('#update-section #checkingUpdates');
+const newUpdate = document.querySelector("#update-section #newUpdate")
+let version = "0.0.1";
+
+//Ipc render that catches updates
+ipcRenderer.send("loadVersion");
+ipcRenderer.on("downloadingVersion", (event, args)=>{
+    update.innerHTML = "Descargando nueva version..."
+});
+
+ipcRenderer.on("newVersion", (event, args)=>{
+    update.classList.add('d-none');
+    newUpdate.classList.remove('d-none'); 
+});
+
+ipcRenderer.on("versionLoaded", (event, args)=>{
+    let actualVersion = args ?? version;
+    update.innerHTML = actualVersion;
+});
 
 //Form selectors
 const form = document.querySelector('#img-converter-form');
@@ -113,11 +131,6 @@ ipcRenderer.on("cancelConversion", (event, args)=>{
 ipcRenderer.on("error", (event, args)=>{
     console.log(args);
 })
-
-//Update animation
-setTimeout((e)=>{
-    update.classList.add('d-none');
-},1000)
 
 
 
