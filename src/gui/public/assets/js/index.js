@@ -51,6 +51,11 @@ ipcRenderer.on("newVersion", (event, args)=>{
 
 ipcRenderer.on("versionLoaded", (event, args)=>{
     let actualVersion = args ?? version;
+    
+    if(update.classList.contains('d-none')){
+      update.classList.remove('d-none');  
+    }
+
     update.innerHTML = `v.${actualVersion}`;
 });
 

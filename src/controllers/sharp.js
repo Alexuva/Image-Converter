@@ -19,7 +19,7 @@ async function processImg(files, format, compress, compressRange, finalPath){
 async function convert(path, name, format, compress, compressRange, finalPath){
     try{
         let image;
-        console.log(compressRange, compress);
+        
         switch (format) {
                 
             case "png":
