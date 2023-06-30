@@ -48,7 +48,7 @@
                     </div>
                     <span class="alert alert-danger p-1 m-0 col-6 text-center d-none" id="alert">Formato de archivo no permitido</span>
                 </div>
-                <div class="row my-1">
+                <div class="row my-1 justify-content-between">
                     <div class="col-6">
                         <label for="img-selector" class="fst-light text-light my-1">Formato de salida</label>
                         <select class="form-select" id="format-select">
@@ -57,11 +57,18 @@
                             <option value="webp">WEBP</option>
                         </select>
                     </div>
+                    <div class="col-4 d-flex flex-column">
+                        <label class="fst-light text-light my-1" for="compressCheckBox">Comprimir imágenes</label>
+                        <label class="switch">
+                            <input type="checkbox" id="compression-checkbox" name="compressCheckBox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
                 </div>
                 <div class="row my-4">
-                    <div class="col-6 align-self-center">
-                        <input class="form-check-input" type="checkbox" value="true" id="compressCheckBox">
-                        <label class="form-check-label fst-light text-light" for="compressCheckBox">Comprimir imágenes</label>
+                    <div class="col-12 text-center opacity-0" id="rangeBlock">
+                        <label for="qualityRange" class="fst-light text-light my-2">Nivel de compresión: <b id="info-range">50%</b></label>
+                        <input type="range" class="form-range" id="customRange" min="1" max="99" id="customRange">
                     </div>
                 </div> 
                 <div class="row my-5 justify-content-center">
@@ -81,7 +88,7 @@
         </div>
     </section>
     <section id="update-section" class="container">
-        <div class="row">
+        <div class="row py-2">
             <small class="text-white text-end align-items-center d-none" id="checkingUpdates">
                 <span class="spinner-border spinner-border-sm text-light me-1" status="role"></span>Buscando actualizaciones...
             </small>

@@ -10,7 +10,7 @@ const convertRoot = path.join(__dirname, ('/gui/public/assets/converted/'));
 function createWindow(){
     const mainWindow = new BrowserWindow({ 
         width: 800, 
-        height: 675,
+        height: 725,
         icon: 'src/gui/public/assets/imgs/mini-logo.png',
         frame: false,
         webPreferences: {
@@ -84,16 +84,26 @@ ipcMain.on('img-converter', async(event, args)=>{
             properties: ['openDirectory']
         }).then(result => {
             if(!result.canceled){
-                const savePath = result.filePaths[0];
+                let savePath = result.filePaths[0];
                 return savePath;
+            }else{
+                let savePath = false;
+                return savePath
+            }
+        }).then( savePath => {
+            if(savePath){
+                let info = async()=>{ return await processImg(args.files, args.format, args.compress, args.compressRange, savePath) }
+                return info();
+            }else{
+                let info = false;
+                return info
+            }
+        }).then( info => {
+            if(info){
+                event.sender.send("conversionFinish");
             }else{
                 event.sender.send("cancelConversion");
             }
-        }).then( savePath => {
-            let info = async()=>{ return await processImg(args.files, args.format, args.compress, savePath) }
-            return info();  
-        }).then( info => {
-            event.sender.send("conversionFinish");
         }).catch(error => {
             event.sender.send('error', error);
             console.log(error)
