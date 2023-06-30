@@ -1,6 +1,6 @@
 {
   "name": "imgconverter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Convertidor de img",
   "main": "index.js",
   "scripts": {

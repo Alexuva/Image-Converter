@@ -58,10 +58,13 @@ ipcRenderer.on("versionLoaded", (event, args)=>{
 const form = document.querySelector('#img-converter-form');
 const images = form.querySelector('#img-selector');
 const format = form.querySelector('#format-select');
-const compress = form.querySelector('#compressCheckBox');
 const submit = form.querySelector('button');
 const modal = new Modal('#imgConversion');
 const alert = form.querySelector("#alert");
+const rangeBlock = form.querySelector("#rangeBlock");
+const range = form.querySelector('#customRange');
+const infoRange = form.querySelector("#info-range");
+const compressCheckbox = form.querySelector("#compression-checkbox");
 
 let imgData = [];
 
@@ -88,6 +91,16 @@ images.addEventListener('change', (e)=>{
     } 
 })
 
+//Listener to get the compression
+compressCheckbox.addEventListener('input', (e)=>{
+    rangeBlock.classList.toggle('opacity-100');
+})
+
+//Listener to get the range
+range.addEventListener('input', (e)=>{
+    infoRange.innerHTML=`${range.value}%`
+})
+
 //Listener for the submit event
 submit.addEventListener('click', (e)=>{
     e.preventDefault;
@@ -97,7 +110,8 @@ submit.addEventListener('click', (e)=>{
         let data = {
             files : imgData,
             format: format.value,
-            compress: compress.checked ? "true" : "false",
+            compress: compressCheckbox.checked ? true : false,
+            compressRange : compressCheckbox.checked ? 100 - parseInt(range.value) : false
         }
 
         let span = document.createElement('span');
