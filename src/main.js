@@ -22,8 +22,9 @@ function createWindow(){
         
     });
 
-    autoUpdater.checkForUpdates();
+    mainWindow.setMinimumSize(800, 725);
     
+    autoUpdater.checkForUpdates();
     
     mainWindow.loadFile('src/gui/public/views/index.html');
 
